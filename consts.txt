@@ -1,0 +1,9 @@
+base64id: 76561197968554278
+API key: 45B03417198B92B5B46998E904A7B52F
+http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=379720&key=45B03417198B92B5B46998E904A7B52F&steamid=76561197968554278
+
+http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=45B03417198B92B5B46998E904A7B52F&steamid=76561197968554278&format=json
+
+https://developer.valvesoftware.com/wiki/Steam_Web_API#GetPlayerSummaries_.28v0001.29
+
+http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=45B03417198B92B5B46998E904A7B52F&vanityurl=skofdo
