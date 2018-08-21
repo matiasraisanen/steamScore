@@ -1,26 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 const PlayerPreview = props => {
   return (
     <div>
-      <div className="column">
-        <img
-          className="avatar"
-          src={props.avatar}
-          alt={`Avatar for ${props.username}`}
+      <Card style={{margin: 'auto', width: 250, marginBottom: 10}}>
+        <CardMedia>
+          <img src={props.avatar} alt="kuva" />
+        </CardMedia>
+        <CardTitle
+          title={props.username}
+          subtitle={props.playerSummary.realname}
         />
-        <h2 className="username">{props.username}</h2>
-        <ul>{props.playerSummary.realname}</ul>
-      </div>
-      <button className="reset" onClick={e => props.onReset(e, props.id)}>
-        Reset
-      </button>
+        <CardText>Owned games: {props.ownedGames.game_count}</CardText>
+      </Card>
     </div>
   );
 };
 
-PlayerPreview.prototypes = {
+PlayerPreview.propTypes = {
   avatar: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
