@@ -5,6 +5,7 @@ import UserInput from './components/UserInput';
 import PlayerPreview from './components/PlayerPreview';
 import GameList from './components/GameList';
 import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {getPlayerSummary, getVanityURL, getOwnedGames} from './util/steamApi';
 
 class App extends Component {
@@ -16,34 +17,42 @@ class App extends Component {
       playerSummary: null,
       success: null,
       ownedGames: null,
+      loading: false,
     };
   }
 
   handleSubmit = (id, username) => {
-    this.setState(() => {
-      const newState = {};
-      newState[`${id}Name`] = username;
-      getVanityURL(username)
-        .then(steamid64 => {
-          this.setState({
-            success: steamid64.success,
-            steamid: steamid64.steamid,
-          });
-          return getPlayerSummary(steamid64.steamid);
-        })
-        .then(playerSummary => {
-          this.setState({playerSummary: playerSummary.players[0]});
-          return getOwnedGames(playerSummary.players[0].steamid);
-        })
-        .then(ownedGames => {
-          this.setState({ownedGames});
-        });
-      return newState;
-    });
+    this.handleReset()
+      .then(this.setState({loading: true}))
+      .then(
+        this.setState(() => {
+          const newState = {};
+          newState[`${id}Name`] = username;
+          getVanityURL(username)
+            .then(steamid64 => {
+              this.setState({
+                success: steamid64.success,
+                steamid: steamid64.steamid,
+              });
+              return getPlayerSummary(steamid64.steamid);
+            })
+            .then(playerSummary => {
+              this.setState({playerSummary: playerSummary.players[0]});
+              try {
+                return getOwnedGames(playerSummary.players[0].steamid);
+              } catch (err) {
+                return {game_count: 0, games: [{appid: 0, name: 'N/A'}]};
+              }
+            })
+            .then(ownedGames => {
+              this.setState({ownedGames, loading: false});
+            });
+          return newState;
+        }),
+      );
   };
 
-  handleReset = event => {
-    event.preventDefault();
+  handleReset = async () => {
     this.setState({
       ownedGames: null,
       success: null,
@@ -62,7 +71,6 @@ class App extends Component {
         </header>
 
         <Grid container spacing={24}>
-          {/* <div className="App-intro"> */}
           <Grid item xs={12} sm={12}>
             <UserInput
               id="user"
@@ -74,6 +82,12 @@ class App extends Component {
               handleReset={this.handleReset}
             />
           </Grid>
+
+          {this.state.loading === true ? (
+            <Grid item xs={12} sm={12}>
+              <CircularProgress />
+            </Grid>
+          ) : null}
 
           {this.state.success === 1 && this.state.ownedGames !== null ? (
             <Grid item xs={12} sm={12}>
@@ -96,11 +110,15 @@ class App extends Component {
           ) : null}
 
           {this.state.success === 42 && this.state.ownedGames !== null ? (
-            <PlayerPreview
-              avatar="https://www.computerhope.com/jargon/e/error.gif"
-              username="User not found"
-              id="player"
-            />
+            <Grid item xs={12} sm={12}>
+              <PlayerPreview
+                avatar="./error.gif"
+                username="User not found"
+                ownedGames={this.state.ownedGames}
+                playerSummary={[{realname: ''}]}
+                id="player"
+              />
+            </Grid>
           ) : null}
         </Grid>
       </div>

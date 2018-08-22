@@ -13,7 +13,7 @@ const PlayerPreview = props => {
           title={props.username}
           subtitle={props.playerSummary.realname}
         />
-        <CardText>Owned games: {props.ownedGames.game_count}</CardText>
+        {props.ownedGames.game_count !== 0 ? <CardText>Owned games: {props.ownedGames.game_count}</CardText> : null}
       </Card>
     </div>
   );

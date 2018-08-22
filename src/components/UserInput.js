@@ -26,8 +26,6 @@ class UserInput extends Component {
     this.props.onSubmit(this.props.id, this.state.username);
   };
 
-  
-
   render() {
     return (
       <div>
@@ -60,7 +58,10 @@ class UserInput extends Component {
               variant="contained"
               color="secondary"
               className="reset"
-              onClick={this.props.handleReset}
+              onClick={event => {
+                this.props.handleReset();
+                this.setState({username: ''});
+              }}
             >
               Reset
             </Button>

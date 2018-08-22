@@ -1,7 +1,6 @@
 const API_KEY = '45B03417198B92B5B46998E904A7B52F';
 
 export async function getPlayerSummary(steamid) {
-  const API_KEY = '45B03417198B92B5B46998E904A7B52F';
   const URL = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${API_KEY}&steamids=${steamid}`;
 
   const init = {
@@ -11,7 +10,6 @@ export async function getPlayerSummary(steamid) {
   };
 
   const data = await (await fetch(URL, init)).json();
-
   return data.response;
 }
 
@@ -24,14 +22,7 @@ export async function getVanityURL(username) {
     cache: 'default',
   };
 
-  const data = await (await fetch(URL, init)).json();
-
-  // if (data.response.success === 1) {
-  //   return data.response.steamid;
-  // } else {
-  //   return 'No match';
-  // }
-
+  const data = await (await fetch(URL, init)).json(); 
   return data.response;
 }
 
@@ -45,7 +36,6 @@ export async function getOwnedGames(steamid) {
   };
 
   const data = await (await fetch(URL, init)).json();
-
   return data.response;
 }
 
@@ -59,7 +49,6 @@ export async function getAppList() {
   };
 
   const data = await (await fetch(URL, init)).json();
-
   return data.applist.apps;
 }
 
@@ -73,7 +62,6 @@ export async function getSchemaForGame(appid) {
   };
 
   const data = await (await fetch(URL, init)).json();
-
   return data.game;
 }
 
@@ -87,6 +75,5 @@ export async function getUserStatsForGame(appid, steamid) {
   };
 
   const data = await (await fetch(URL, init)).json();
-
   return data.playerstats;
 }
