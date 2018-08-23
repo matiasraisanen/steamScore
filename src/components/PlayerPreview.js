@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import Chip from '@material-ui/core/Chip';
+
+// PlayerPreview displays a Card with player summary data
 
 const PlayerPreview = props => {
   return (
@@ -13,7 +16,17 @@ const PlayerPreview = props => {
           title={props.username}
           subtitle={props.playerSummary.realname}
         />
-        {props.ownedGames.game_count !== 0 ? <CardText>Owned games: {props.ownedGames.game_count}</CardText> : null}
+
+        {props.ownedGames.game_count !== 0 &&
+        props.playerSummary.communityvisibilitystate === 3 ? (
+          <CardText>
+            Games owned: <Chip label={props.ownedGames.game_count} />
+          </CardText>
+        ) : props.playerSummary.communityvisibilitystate === 1 ? (
+          <CardText>
+            <span style={{color: 'red'}}>Private profile</span>
+          </CardText>
+        ) : null}
       </Card>
     </div>
   );

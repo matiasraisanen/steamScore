@@ -101,11 +101,13 @@ class App extends Component {
                 ownedGames={this.state.ownedGames}
                 id="player"
               />
-              <GameList
-                ownedGames={this.state.ownedGames.games}
-                steamid={this.state.playerSummary.steamid}
-                username={this.state.userName}
-              />
+              {this.state.playerSummary.communityvisibilitystate === 3 && (
+                <GameList
+                  ownedGames={this.state.ownedGames.games}
+                  steamid={this.state.playerSummary.steamid}
+                  username={this.state.userName}
+                />
+              )}
             </Grid>
           ) : null}
 

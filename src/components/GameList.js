@@ -17,6 +17,8 @@ import _ from 'lodash';
 
 import {getUserStatsForGame} from '../util/steamApi';
 
+// GameList renders a list of user's games.
+
 class GameList extends React.Component {
   constructor(props) {
     super(props);
@@ -98,13 +100,13 @@ class GameList extends React.Component {
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               Stats for {this.props.username}.<br />
-              Playtime: <Chip label={this.state.played} color="primary" /> min.
+              Playtime: <Chip label={this.state.played} /> min.
               <br />
-              Achievements:
+              Achievement count:
               {this.state.loading === true ? (
                 <CircularProgress />
               ) : (
-                <Chip label={this.state.achievementsTotal} color="primary" />
+                <Chip label={this.state.achievementsTotal} />
               )}
             </DialogContentText>
           </DialogContent>
