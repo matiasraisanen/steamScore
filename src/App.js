@@ -5,6 +5,15 @@ import UserInput from './components/UserInput';
 import PlayerPreview from './components/PlayerPreview';
 import GameList from './components/GameList';
 import Grid from '@material-ui/core/Grid';
+import Chip from '@material-ui/core/Chip';
+import Avatar from '@material-ui/core/Avatar';
+import Info from '@material-ui/icons/Info';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   getPlayerSummary,
@@ -17,6 +26,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      open: false,
       userName: '',
       steamid: null,
       playerSummary: null,
@@ -25,6 +35,14 @@ class App extends Component {
       loading: false,
     };
   }
+
+  handleClickOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleClose = () => {
+    this.setState({open: false});
+  };
 
   handleSubmit = (id, username) => {
     this.handleReset()
@@ -131,7 +149,46 @@ class App extends Component {
               />
             </Grid>
           ) : null}
+
+          <Grid item xs={12} sm={12}>
+            <Chip
+              color="primary"
+              label="Help"
+              avatar={
+                <Avatar>
+                  <Info />
+                </Avatar>
+              }
+              onClick={this.handleClickOpen}
+            />
+          </Grid>
         </Grid>
+
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="Help"
+          aria-describedby="Help"
+        >
+          <DialogTitle id="Help">Help</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="Help">
+              The search works by looking up the player's custom url. Setup your
+              custom URL here:{' '}
+              <a href="http://steamcommunity.com/my/edit/">
+                http://steamcommunity.com/my/edit/
+              </a>
+              <br />
+              Also, you must edit your privacy settings and make the profile
+              public.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary" autoFocus>
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }
