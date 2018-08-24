@@ -189,19 +189,21 @@ export async function getPlayerScoreForGame(appid, steamid) {
   var userAchiNames = [];
   var userScore = 0;
 
-  for (let item of userAchis) {
-    userAchiNames.push(item['name']);
-  }
+  if (userAchis) {
+    for (let item of userAchis) {
+      userAchiNames.push(item['name']);
+    }
 
-  // console.log(percentages);
-  // console.log(userAchis);
-  // console.log(userScore);
+    // console.log(percentages);
+    // console.log(userAchis);
+    // console.log(userScore);
 
-  for (let item of percentages) {
-    if (userAchiNames.includes(item['name'])) {
-      var scoreAddition = 100 / item['percent'];
-      userScore = userScore + scoreAddition;
-      // console.log(`Adding ${scoreAddition} to userscore`);
+    for (let item of percentages) {
+      if (userAchiNames.includes(item['name'])) {
+        var scoreAddition = 100 / item['percent'];
+        userScore = userScore + scoreAddition;
+        // console.log(`Adding ${scoreAddition} to userscore`);
+      }
     }
   }
   userScore = Math.round(userScore);
@@ -219,7 +221,6 @@ export async function getPlayerScoreForListOfGames(steamid, games) {
 
   for (let id of appids) {
     var scoreToAdd;
-
     try {
       scoreToAdd = await getPlayerScoreForGame(id, steamid);
     } catch (err) {
@@ -230,36 +231,3 @@ export async function getPlayerScoreForListOfGames(steamid, games) {
 
   return scores;
 }
-// allAchievements: [
-//   {name: 'NEW_ACHIEVEMENT_1_7', percent: 75},
-//   {name: 'NEW_ACHIEVEMENT_1_8', percent: 60.5},
-//   {name: 'NEW_ACHIEVEMENT_1_9', percent: 53},
-//   {name: 'NEW_ACHIEVEMENT_1_10', percent: 48.900001525878906},
-//   {name: 'NEW_ACHIEVEMENT_1_11', percent: 44.099998474121094},
-//   {name: 'NEW_ACHIEVEMENT_1_12', percent: 39.5},
-//   {name: 'NEW_ACHIEVEMENT_1_13', percent: 35.599998474121094},
-//   {name: 'NEW_ACHIEVEMENT_1_14', percent: 33.099998474121094},
-//   {name: 'NEW_ACHIEVEMENT_1_1', percent: 32.70000076293945},
-//   {name: 'NEW_ACHIEVEMENT_1_2', percent: 15.800000190734863},
-//   {name: 'NEW_ACHIEVEMENT_1_3', percent: 12.5},
-//   {name: 'NEW_ACHIEVEMENT_1_0', percent: 6.599999904632568},
-//   {name: 'NEW_ACHIEVEMENT_1_4', percent: 5.800000190734863},
-//   {name: 'NEW_ACHIEVEMENT_1_6', percent: 5},
-//   {name: 'NEW_ACHIEVEMENT_1_5', percent: 4.400000095367432},
-// ];
-
-// userAchievements: [
-//   {name: 'NEW_ACHIEVEMENT_1_1', achieved: 1},
-//   {name: 'NEW_ACHIEVEMENT_1_2', achieved: 1},
-//   {name: 'NEW_ACHIEVEMENT_1_3', achieved: 1},
-//   {name: 'NEW_ACHIEVEMENT_1_4', achieved: 1},
-//   {name: 'NEW_ACHIEVEMENT_1_5', achieved: 1},
-//   {name: 'NEW_ACHIEVEMENT_1_7', achieved: 1},
-//   {name: 'NEW_ACHIEVEMENT_1_8', achieved: 1},
-//   {name: 'NEW_ACHIEVEMENT_1_9', achieved: 1},
-//   {name: 'NEW_ACHIEVEMENT_1_10', achieved: 1},
-//   {name: 'NEW_ACHIEVEMENT_1_11', achieved: 1},
-//   {name: 'NEW_ACHIEVEMENT_1_12', achieved: 1},
-//   {name: 'NEW_ACHIEVEMENT_1_13', achieved: 1},
-//   {name: 'NEW_ACHIEVEMENT_1_14', achieved: 1},
-// ];
