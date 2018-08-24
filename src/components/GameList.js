@@ -15,7 +15,7 @@ import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import _ from 'lodash';
 
-import {getUserStatsForGame} from '../util/steamApi';
+import {getUserStatsForGame, getPlayerScoreForGame} from '../util/steamApi';
 
 // GameList renders a list of user's games.
 
@@ -24,7 +24,9 @@ class GameList extends React.Component {
     super(props);
     this.state = {
       open: false,
-      loading: false,
+      loadingCount: false,
+      loadingScore: false,
+      achiScore: null,
       appid: '',
       gamename: '',
       played: '',
@@ -35,19 +37,30 @@ class GameList extends React.Component {
   handleClickOpen = (appid, gamename, played, steamid) => {
     this.setState({
       open: true,
-      loading: true,
+      loadingCount: true,
+      loadingScore: true,
       appid,
       gamename,
       played,
       achievementsTotal: '  ',
     });
+
     getUserStatsForGame(appid, steamid).then(response => {
       try {
         this.setState({achievementsTotal: response.achievements.length});
       } catch (err) {
         this.setState({achievementsTotal: 0});
       }
-      return this.setState({loading: false});
+      return this.setState({loadingCount: false});
+    });
+
+    getPlayerScoreForGame(appid, steamid).then(response => {
+      try {
+        this.setState({achiScore: response});
+      } catch (err) {
+        this.setState({achiScore: 0});
+      }
+      return this.setState({loadingScore: false});
     });
   };
 
@@ -91,22 +104,27 @@ class GameList extends React.Component {
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+          aria-labelledby="Game info"
+          aria-describedby="Game info"
         >
-          <DialogTitle id="alert-dialog-title">
-            {this.state.gamename}
-          </DialogTitle>
+          <DialogTitle id="Game info">{this.state.gamename}</DialogTitle>
           <DialogContent>
-            <DialogContentText id="alert-dialog-description">
+            <DialogContentText id="Game info">
               Stats for {this.props.username}.<br />
               Playtime: <Chip label={this.state.played} /> min.
               <br />
               Achievement count:
-              {this.state.loading === true ? (
+              {this.state.loadingCount === true ? (
                 <CircularProgress />
               ) : (
                 <Chip label={this.state.achievementsTotal} />
+              )}
+              <br />
+              Achievement score:
+              {this.state.loadingScore === true ? (
+                <CircularProgress />
+              ) : (
+                <Chip label={this.state.achiScore} />
               )}
             </DialogContentText>
           </DialogContent>

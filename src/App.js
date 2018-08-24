@@ -6,7 +6,12 @@ import PlayerPreview from './components/PlayerPreview';
 import GameList from './components/GameList';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {getPlayerSummary, getVanityURL, getOwnedGames} from './util/steamApi';
+import {
+  getPlayerSummary,
+  getVanityURL,
+  getOwnedGames,
+  getPlayerScoreForGame,
+} from './util/steamApi';
 
 class App extends Component {
   constructor(props) {
@@ -50,6 +55,10 @@ class App extends Component {
           return newState;
         }),
       );
+  };
+
+  calculateScore = (appid, steamid) => {
+    getPlayerScoreForGame(appid, steamid);
   };
 
   handleReset = async () => {
