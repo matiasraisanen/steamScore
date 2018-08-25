@@ -41,3 +41,8 @@ Profile must also have it's privacy settings set to public.
 6. getGlobalAchievementPercentagesForApp  
 
    Return the achievement percentages for a certain game.
+
+
+## Live link
+
+You can try the application [here](http://renki.dy.fi/steamscore/).
