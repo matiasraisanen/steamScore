@@ -45,4 +45,5 @@ Profile must also have its privacy settings set to public.
 
 ## Live link
 
-You can try the application [here](http://renki.dy.fi/steamscore/).
+You can try the application [here](http://renki.dy.fi/steamscore/).  
+If you don't have a profile set up for yourself, you can do a search for **skofdo**, which is me. 😎
