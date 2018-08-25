@@ -13,8 +13,8 @@ For an example, an achievement which has been attained by 5% of the game's playe
 Application makes API calls for each achievement of each game in the user's library, and returns an accumulated score value of these games.
 
 The player must have set up their custom URL for the search function to work.  
-Custom URL can be set up [here](http://steamcommunity.com/my/edit/) in profile settings.  
-Profile must also have it's privacy settings set to public.
+Custom URL can be set up [here](http://steamcommunity.com/my/edit/) in Steam profile settings.  
+Profile must also have its privacy settings set to public.
 
 # Uses [Steam Web API](https://steamcommunity.com/dev) for fetching player data.
 ## Following API calls in use:
