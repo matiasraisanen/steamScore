@@ -215,18 +215,22 @@ export async function getPlayerScoreForListOfGames(steamid, games) {
   var scores = 0;
   var appids = [];
 
-  for (let item of games) {
-    appids.push(item['appid']);
-  }
-
-  for (let id of appids) {
-    var scoreToAdd;
-    try {
-      scoreToAdd = await getPlayerScoreForGame(id, steamid);
-    } catch (err) {
-      scoreToAdd = 0;
+  try {
+    for (let item of games) {
+      appids.push(item['appid']);
     }
-    scores = scores + scoreToAdd;
+
+    for (let id of appids) {
+      var scoreToAdd;
+      try {
+        scoreToAdd = await getPlayerScoreForGame(id, steamid);
+      } catch (err) {
+        scoreToAdd = 0;
+      }
+      scores = scores + scoreToAdd;
+    }
+  } catch (err) {
+    null;
   }
 
   return scores;

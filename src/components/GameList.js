@@ -70,34 +70,47 @@ class GameList extends React.Component {
 
   render() {
     var ownedGames = this.props.ownedGames;
-    ownedGames.map(
-      o => (o.name = gameList.applist.apps.find(x => x.appid === o.appid).name),
-    );
+    var listItems = [];
 
-    var sortedGames = _.sortBy(ownedGames, ['name']);
+    if (ownedGames) {
+      ownedGames.map(
+        o =>
+          (o.name = gameList.applist.apps.find(x => x.appid === o.appid).name),
+      );
+      var sortedGames = _.sortBy(ownedGames, ['name']);
 
-    const listItems = sortedGames.map(game => (
-      <div key={game.appid}>
-        <ListItem
-          button
-          onClick={e =>
-            this.handleClickOpen(
-              game.appid,
-              game.name,
-              ownedGames.find(x => x.appid === game.appid).playtime_forever,
-              this.props.steamid,
-              e,
-            )
-          }
-          key={game.appid}
-        >
-          <ListItemText>
-            {game.name} (AppID: {game.appid})
-          </ListItemText>
-        </ListItem>
-        <Divider />
-      </div>
-    ));
+      listItems = sortedGames.map(game => (
+        <div key={game.appid}>
+          <ListItem
+            button
+            onClick={e =>
+              this.handleClickOpen(
+                game.appid,
+                game.name,
+                ownedGames.find(x => x.appid === game.appid).playtime_forever,
+                this.props.steamid,
+                e,
+              )
+            }
+            key={game.appid}
+          >
+            <ListItemText>
+              {game.name} (AppID: {game.appid})
+            </ListItemText>
+          </ListItem>
+          <Divider />
+        </div>
+      ));
+    } else {
+      listItems = (
+        <div key="0">
+          <ListItem button key="0">
+            <ListItemText>No Games Found</ListItemText>
+          </ListItem>
+          <Divider />
+        </div>
+      );
+    }
 
     return (
       <div>
@@ -136,6 +149,7 @@ class GameList extends React.Component {
         </Dialog>
 
         <h1>Games list</h1>
+
         <List style={{maxWidth: 460, margin: 'auto'}}>{listItems}</List>
       </div>
     );

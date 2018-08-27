@@ -5,6 +5,12 @@ import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
 import Info from '@material-ui/icons/Info';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
 
 import {getPlayerScoreForListOfGames} from '../util/steamApi';
 
@@ -16,6 +22,7 @@ class PlayerPreview extends Component {
     this.state = {
       loadingScores: true,
       achiScores: 0,
+      scoringHelpOpen: false,
     };
   }
 
@@ -29,10 +36,14 @@ class PlayerPreview extends Component {
     });
   }
 
-  handleClick = () => {
-    alert(
-      'All achievements the player has attained have a base value of 100 points. This value is then divided by the rarity percentage of the achievement. For example, an achievement that has been attained by 5% of the people who have played the game, scores you a total of 100pts / 5 = 20 points. The more games the player has, the longer it takes to calculate the score, as each game has to be calculated individually.',
-    ); // eslint-disable-line no-alert
+  handleScoringHelpClickOpen = () => {
+    this.setState({
+      scoringHelpOpen: true,
+    });
+  };
+
+  handleScoringHelpClose = () => {
+    this.setState({scoringHelpOpen: false});
   };
 
   render() {
@@ -50,7 +61,14 @@ class PlayerPreview extends Component {
           {this.props.ownedGames.game_count !== 0 &&
           this.props.playerSummary.communityvisibilitystate === 3 ? (
             <CardText>
-              Games owned: <Chip label={this.props.ownedGames.game_count} />
+              Games owned:{' '}
+              <Chip
+                label={
+                  this.props.ownedGames.game_count
+                    ? this.props.ownedGames.game_count
+                    : 0
+                }
+              />
               <br />
               Total achievement score:
               {this.state.loadingScores === true ? (
@@ -58,6 +76,8 @@ class PlayerPreview extends Component {
               ) : (
                 <Chip label={this.state.achiScores} />
               )}
+              <br />
+              <br />
               <Chip
                 color="primary"
                 label="How is score calculated?"
@@ -66,7 +86,7 @@ class PlayerPreview extends Component {
                     <Info />
                   </Avatar>
                 }
-                onClick={this.handleClick}
+                onClick={this.handleScoringHelpClickOpen}
               />
             </CardText>
           ) : this.props.playerSummary.communityvisibilitystate === 1 ? (
@@ -75,6 +95,38 @@ class PlayerPreview extends Component {
             </CardText>
           ) : null}
         </Card>
+
+        <Dialog
+          open={this.state.scoringHelpOpen}
+          onClose={this.handleScoringHelpClose}
+          aria-labelledby="Scoring"
+          aria-describedby="Scoring"
+        >
+          <DialogTitle id="Scoring">Scoring</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="Scoring">
+              All achievements the player has attained have a base value of 100
+              points. This value is then divided by the rarity percentage of the
+              achievement. <br />
+              <br />
+              For example, an achievement that has been attained by 5% of the
+              people who have played the game, scores you a total of 100pts / 5
+              = 20 points. <br />
+              <br />
+              The more games the player has, the longer it takes to calculate
+              the score, as each game has to be calculated individually.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={this.handleScoringHelpClose}
+              color="primary"
+              autoFocus
+            >
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }
