@@ -230,7 +230,7 @@ export async function getPlayerScoreForListOfGames(steamid, games) {
       scores = scores + scoreToAdd;
     }
   } catch (err) {
-    null;
+    return scores;
   }
 
   return scores;
