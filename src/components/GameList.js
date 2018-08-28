@@ -94,9 +94,7 @@ class GameList extends React.Component {
             }
             key={game.appid}
           >
-            <ListItemText>
-              {game.name} (AppID: {game.appid})
-            </ListItemText>
+            <ListItemText>{game.name}</ListItemText>
           </ListItem>
           <Divider />
         </div>
@@ -120,7 +118,9 @@ class GameList extends React.Component {
           aria-labelledby="Game info"
           aria-describedby="Game info"
         >
-          <DialogTitle id="Game info">{this.state.gamename}</DialogTitle>
+          <DialogTitle id="Game info">
+            {this.state.gamename} (AppID: {this.state.appid})
+          </DialogTitle>
           <DialogContent>
             <DialogContentText id="Game info">
               Stats for {this.props.username}.<br />
