@@ -2,7 +2,7 @@
   "name": "steamcompare",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://renki.dy.fi/steamscore",
+  "homepage": "http://matiasraisanen.com/steamscore",
   "dependencies": {
     "@material-ui/core": "^1.5.1",
     "@material-ui/icons": "^2.0.3",
