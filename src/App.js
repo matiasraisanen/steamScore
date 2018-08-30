@@ -44,12 +44,16 @@ class App extends Component {
     this.setState({open: false});
   };
 
-  handleSubmit = (id, username) => {
+  handleSubmit = (id, username, steamid64) => {
+
+    var newState = {};
+
+    if (username) {
     this.handleReset()
       .then(this.setState({loading: true}))
       .then(
         this.setState(() => {
-          const newState = {};
+          
           newState[`${id}Name`] = username;
           getVanityURL(username)
             .then(steamid64 => {
@@ -73,6 +77,43 @@ class App extends Component {
           return newState;
         }),
       );
+
+    } else if (steamid64) {
+      this.handleReset()
+      .then(this.setState({loading: true}))
+      .then(
+        this.setState(() => {
+          
+          newState[`${id}Name`] = username;
+          newState["steamid"] = steamid64;
+          getPlayerSummary(steamid64)
+            .then(playerSummary => {
+              console.log(playerSummary.players.length)
+
+              if (playerSummary.players.length === 0) {
+                newState["success"] = 42;
+                console.log("fail")
+                console.log(newState)
+              } else {
+                newState["success"] = 1;
+                console.log("success")
+              };
+
+              this.setState({playerSummary: playerSummary.players[0]});
+              try {
+                return getOwnedGames(playerSummary.players[0].steamid);
+              } catch (err) {
+                return {game_count: 0, games: [{appid: 0, name: 'N/A'}]};
+              }
+            })
+            .then(ownedGames => {
+              this.setState({ownedGames, loading: false});
+            });
+          console.log(newState);
+          return newState;
+        }),
+      );
+    }
   };
 
   calculateScore = (appid, steamid) => {
@@ -86,6 +127,7 @@ class App extends Component {
       userName: null,
       playerSummary: null,
       steamid: null,
+      loading: false,
     });
   };
 
@@ -173,12 +215,15 @@ class App extends Component {
           <DialogTitle id="Help">Help</DialogTitle>
           <DialogContent>
             <DialogContentText id="Help">
-              The search works by looking up the player's custom url. Setup your
+              Username search works by looking up the player's custom url. <br/>Setup your
               custom URL here:{' '}
               <a href="http://steamcommunity.com/my/edit/">
                 http://steamcommunity.com/my/edit/
               </a>
-              <br />
+              <br /><br />
+              SteamID64 search works by looking up the user's SteamID64, which is the 17 digit ID on a profile's URL:<br/>
+              https://steamcommunity.com/profiles/<span style={{color: "red"}}>76561197968554278</span>/
+              <br /><br />
               Also, you must edit your privacy settings and make the profile
               public.
             </DialogContentText>

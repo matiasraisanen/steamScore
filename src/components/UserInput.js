@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
-
+import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
 
 class UserInput extends Component {
@@ -9,6 +9,7 @@ class UserInput extends Component {
     super(props);
     this.state = {
       username: '',
+      steamid64: ''
     };
   }
 
@@ -21,9 +22,18 @@ class UserInput extends Component {
     });
   };
 
+  handleChangeSteamID64 = event => {
+    const value = event.target.value;
+    this.setState(() => {
+      return {
+        steamid64: value,
+      };
+    });
+  };
+
   handleSubmit = event => {
     event.preventDefault();
-    this.props.onSubmit(this.props.id, this.state.username);
+    this.props.onSubmit(this.props.id, this.state.username, this.state.steamid64);
   };
 
   render() {
@@ -31,13 +41,36 @@ class UserInput extends Component {
       <div>
         <form className="column" onSubmit={this.handleSubmit}>
           <div className="inputbox" style={{margin: '5px', padding: 10}}>
+          <InputLabel shrink htmlFor="age-label-placeholder">
+            Search by
+          </InputLabel>
             <TextField
+              disabled={this.state.steamid64 ? true : false}          
               id="username"
               label="Username"
               type="text"
               autoComplete="off"
               value={this.state.username}
               onChange={this.handleChange}
+            />            
+          </div>
+
+          <div>
+            OR
+          </div>
+          
+          <div className="inputboxSteamID">
+          <InputLabel shrink htmlFor="age-label-placeholder">
+            Search by
+          </InputLabel>
+            <TextField
+              disabled={this.state.username ? true : false}
+              id="steamid64"
+              label="SteamID64"
+              type="text"
+              autoComplete="off"
+              value={this.state.steamid64}
+              onChange={this.handleChangeSteamID64}
             />
           </div>
 
@@ -48,7 +81,7 @@ class UserInput extends Component {
               color="primary"
               className="button"
               type="submit"
-              disabled={!this.state.username}
+              disabled={!this.state.username && !this.state.steamid64}
             >
               Search
             </Button>
@@ -61,6 +94,7 @@ class UserInput extends Component {
               onClick={event => {
                 this.props.handleReset();
                 this.setState({username: ''});
+                this.setState({steamid64: ''});
               }}
             >
               Reset
