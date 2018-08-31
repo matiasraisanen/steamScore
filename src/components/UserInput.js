@@ -9,7 +9,7 @@ class UserInput extends Component {
     super(props);
     this.state = {
       username: '',
-      steamid64: ''
+      steamid64: '',
     };
   }
 
@@ -33,7 +33,11 @@ class UserInput extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.onSubmit(this.props.id, this.state.username, this.state.steamid64);
+    this.props.onSubmit(
+      this.props.id,
+      this.state.username,
+      this.state.steamid64,
+    );
   };
 
   render() {
@@ -41,28 +45,26 @@ class UserInput extends Component {
       <div>
         <form className="column" onSubmit={this.handleSubmit}>
           <div className="inputbox" style={{margin: '5px', padding: 10}}>
-          <InputLabel shrink htmlFor="age-label-placeholder">
-            Search by
-          </InputLabel>
+            <InputLabel shrink htmlFor="age-label-placeholder">
+              Search by
+            </InputLabel>
             <TextField
-              disabled={this.state.steamid64 ? true : false}          
+              disabled={this.state.steamid64 ? true : false}
               id="username"
               label="Username"
               type="text"
               autoComplete="off"
               value={this.state.username}
               onChange={this.handleChange}
-            />            
+            />
           </div>
 
-          <div>
-            OR
-          </div>
-          
+          <div>OR</div>
+
           <div className="inputboxSteamID">
-          <InputLabel shrink htmlFor="age-label-placeholder">
-            Search by
-          </InputLabel>
+            <InputLabel shrink htmlFor="age-label-placeholder">
+              Search by
+            </InputLabel>
             <TextField
               disabled={this.state.username ? true : false}
               id="steamid64"
@@ -74,7 +76,7 @@ class UserInput extends Component {
             />
           </div>
 
-          <div className="buttons">
+          <div style={{marginTop: '15px'}} className="buttons">
             <Button
               style={{margin: '5px'}}
               variant="contained"
