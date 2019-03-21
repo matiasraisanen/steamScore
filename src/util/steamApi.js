@@ -1,4 +1,4 @@
-const API_KEY = '45B03417198B92B5B46998E904A7B52F';
+const API_KEY = 'AE4816456A885A15EBC16FF99EA0DFFB';
 
 export async function getPlayerSummary(steamid) {
   // Returns basic profile information for a list of 64-bit Steam IDs.
@@ -31,7 +31,7 @@ export async function getPlayerSummary(steamid) {
 
   const init = {
     method: 'get',
-    mode: 'cors',
+    mode: 'no-cors',
     cache: 'default',
   };
 
@@ -51,7 +51,7 @@ export async function getVanityURL(username) {
 
   const init = {
     method: 'get',
-    mode: 'cors',
+    mode: 'no-cors',
     cache: 'default',
   };
 
@@ -76,7 +76,7 @@ export async function getOwnedGames(steamid) {
 
   const init = {
     method: 'get',
-    mode: 'cors',
+    mode: 'no-cors',
     cache: 'default',
   };
 
@@ -90,7 +90,7 @@ export async function getAppList() {
 
   const init = {
     method: 'get',
-    mode: 'cors',
+    mode: 'no-cors',
     cache: 'default',
   };
 
@@ -122,7 +122,7 @@ export async function getSchemaForGame(appid) {
 
   const init = {
     method: 'get',
-    mode: 'cors',
+    mode: 'no-cors',
     cache: 'default',
   };
 
@@ -146,7 +146,7 @@ export async function getUserStatsForGame(appid, steamid) {
 
   const init = {
     method: 'get',
-    mode: 'cors',
+    mode: 'no-cors',
     cache: 'default',
   };
 
@@ -175,7 +175,7 @@ export async function getGlobalAchievementPercentagesForApp(appid) {
 
   const init = {
     method: 'get',
-    mode: 'cors',
+    mode: 'no-cors',
     cache: 'default',
   };
 
